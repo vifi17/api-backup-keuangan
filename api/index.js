@@ -66,15 +66,25 @@
 // module.exports = app;
 const express = require("express");
 const cors = require("cors");
-const db = require("../db.js");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"]
+}));
 
-app.get("/", (req, res) => {
-    res.send("API berjalan");
+app.options("*", cors());
+
+app.use(express.json());
+
+app.post("/backup", (req, res) => {
+
+    res.json({
+        status: "success"
+    });
+
 });
-
 
 module.exports = app;
