@@ -24,7 +24,8 @@ app.post("/backup", async (req, res) => {
     if(proses == "1"){
         let berhasil = 0;
         let gagal = 0;
-        for(k of arr_data){
+        for(let k of arr_data){
+            if (!k) continue;
             let arr_data2 = k.split("|");
             let idx = arr_data2[0];
             let deskripsix = arr_data2[1];
@@ -38,7 +39,7 @@ app.post("/backup", async (req, res) => {
         kodex = 200;
     }else{
         pesanx = {kode: "00", status: "Proses Backup Gagal, Periksa Kembali Data Anda"};
-        kodex: 500;
+        kodex= 500;
     }
     return res.status(kodex).json(pesanx);
 })
