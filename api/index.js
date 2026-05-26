@@ -8,7 +8,7 @@
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
-// // Endpoint status
+
 // app.get("/status", (req, res) => {
 //     res.status(200).json({
 //         kode: "01",
@@ -65,11 +65,16 @@
 
 // module.exports = app;
 const express = require("express");
+const cors = require("cors");
+const db = require("../db.js");
 
 const app = express();
 
+app.use(cors());
+
 app.get("/", (req, res) => {
-    res.send("API BERHASIL");
+    res.send("API berjalan");
 });
+
 
 module.exports = app;
