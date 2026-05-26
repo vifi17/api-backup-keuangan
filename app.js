@@ -8,6 +8,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+app.get("/", (req, res) => {
+    res.send("API jalan");
+});
 app.get("/status", (req, res) => {
     res.send(
         '{"kode":"01", "status":"API Berbasis ExpressJS OK"}'
