@@ -70,7 +70,21 @@ const db = require("../db.js");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    method: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"]
+}));
+
+app.options("*", cors());
+
+app.use(express.json());
+
+app.post("/backup", (req, res) => {
+    res.json({
+        status: "success"
+    });
+});
 
 app.get("/", (req, res) => {
     res.send("API berjalan");
