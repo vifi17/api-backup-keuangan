@@ -100,10 +100,12 @@ app.get("/buat-table", (req, res) => {
 
         if(err){
 
+            console.log("ERROR SQL:");
             console.log(err);
 
-            return res.json({
+            return res.status(500).json({
                 success: false,
+                message: err.message,
                 error: err
             });
 
@@ -111,7 +113,7 @@ app.get("/buat-table", (req, res) => {
 
         res.json({
             success: true,
-            message: "Tabel backup berhasil dibuat"
+            message: "Tabel berhasil dibuat"
         });
 
     });
