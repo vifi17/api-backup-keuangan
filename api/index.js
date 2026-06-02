@@ -66,6 +66,7 @@
 // module.exports = app;
 const express = require("express");
 const cors = require("cors");
+const db = require("../db.js");
 
 const app = express();
 
@@ -85,6 +86,46 @@ app.post("/backup", (req, res) => {
         success: true,
         data: req.body
     });
+
+});
+
+app.get("/buat-table", (req, res) => {
+
+    db.query(`
+        CREATE TABLE IF NOT EXISTS backup (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nama_backup VARCHAR(255)
+        )
+    `, (err, result) => {
+
+        if(err){
+
+            console.log(err);
+
+            return res.json({
+                success: false,
+                error: err
+            });
+
+        }
+
+        res.json({
+            success: true,
+            message: "Tabel backup berhasil dibuat"
+        });
+
+    });
+
+});
+
+db.connect((err) => {
+
+    if(err){
+        console.log("DATABASE ERROR");
+        console.log(err);
+    } else {
+        console.log("DATABASE CONNECTED");
+    }
 
 });
 
