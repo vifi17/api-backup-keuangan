@@ -33,4 +33,4 @@ const buatKoneksi = mysql.createConnection({
 //         return "0";
 //     }
 // };
-module.exports = db;
+module.exports = buatKoneksi, mysql;
