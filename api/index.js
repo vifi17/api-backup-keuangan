@@ -78,11 +78,14 @@ app.get("/", (req, res) => {
 
 app.post("/backup", (req, res) => {
 
-    let nama = req.body.nama_backup;
+    let id = req.body.id;
+    let nama = req.body.nama;
+    let channel = req.body.channel;
+    let waktu = req.body.waktu;
 
     db.query(
-        "INSERT INTO backup(nama_backup) VALUES(?)",
-        [nama],
+        "INSERT INTO Backup(id, nama, channel, waktu) VALUES(?,?,?,?)",
+        [id, nama, channel, waktu],
         (err, result) => {
 
             if(err){
@@ -91,7 +94,7 @@ app.post("/backup", (req, res) => {
 
                 return res.status(500).json({
                     success: false,
-                    error: err
+                    error: err.message
                 });
 
             }
@@ -104,5 +107,4 @@ app.post("/backup", (req, res) => {
     );
 
 });
-
 module.exports = app;
