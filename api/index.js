@@ -78,9 +78,30 @@ app.get("/", (req, res) => {
 
 app.post("/backup", (req, res) => {
 
-    res.json({
-        success: true
-    });
+    let nama = req.body.nama_backup;
+
+    db.query(
+        "INSERT INTO backup(nama_backup) VALUES(?)",
+        [nama],
+        (err, result) => {
+
+            if(err){
+
+                console.log(err);
+
+                return res.status(500).json({
+                    success: false,
+                    error: err
+                });
+
+            }
+
+            res.json({
+                success: true
+            });
+
+        }
+    );
 
 });
 
