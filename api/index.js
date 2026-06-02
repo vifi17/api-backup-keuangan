@@ -89,36 +89,6 @@ app.post("/backup", (req, res) => {
 
 });
 
-app.get("/buat-table", (req, res) => {
-
-    db.query(`
-        CREATE TABLE IF NOT EXISTS backup (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nama_backup VARCHAR(255)
-        )
-    `, (err, result) => {
-
-        if(err){
-
-            console.log("ERROR SQL:");
-            console.log(err);
-
-            return res.status(500).json({
-                success: false,
-                message: err.message,
-                error: err
-            });
-
-        }
-
-        res.json({
-            success: true,
-            message: "Tabel berhasil dibuat"
-        });
-
-    });
-
-});
 
 db.connect((err) => {
 
