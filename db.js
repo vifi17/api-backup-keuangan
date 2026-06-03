@@ -93,3 +93,4 @@ module.exports = {
     tambahBackup,
     tambahTransaksi
 };
+console.log(process.env.MYSQLHOST);
