@@ -79,7 +79,7 @@ const tambahTransaksi = async (
         return "1";
 
     } catch(err){
-
+        console.log(arr_data2);
         console.log(err);
         console.log("ERROR TAMBAH BACKUP");
         return "0";
