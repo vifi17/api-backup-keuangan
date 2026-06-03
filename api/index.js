@@ -20,6 +20,7 @@
 // module.exports = app;
 const express = require("express");
 const cors = require("cors");
+const db = require("../db.js");
 
 const app = express();
 
