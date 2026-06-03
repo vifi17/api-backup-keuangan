@@ -40,7 +40,7 @@ const tambahBackup = async (id, nama, channel) => {
     } catch(err){
 
         console.log(err);
-
+        console.log("ERROR TAMBAH TRANSAKSI");
         return "0";
 
     }
@@ -81,7 +81,7 @@ const tambahTransaksi = async (
     } catch(err){
 
         console.log(err);
-
+        console.log("ERROR TAMBAH BACKUP");
         return "0";
 
     }
