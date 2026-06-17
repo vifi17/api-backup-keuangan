@@ -101,6 +101,6 @@ app.post("/detail_backup", async (req, res) => {
     }else{
         res.send('{"kode":"01","pesan":"Data Detail Backup Di Temukan", "data":' + JSON.stringify(dtdetail) + '}');
     }
-})
+});
 
 module.exports = app;
