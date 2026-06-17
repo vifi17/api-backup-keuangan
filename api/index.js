@@ -94,13 +94,38 @@ app.get("/daftar_backup", async (req,res) => {
 });
 
 app.post("/detail_backup", async (req, res) => {
-    let idbackup = req.body.idbackup;
-    const dtdetail = await db.bacaDetailBackup(idbackup);
-    if(dtdetail == false){
-        res.send('{"kode":"00","pesan":"Data Detail Backup Tidak Di Temukan"}');
-    }else{
-        res.send('{"kode":"01","pesan":"Data Detail Backup Di Temukan", "data":' + JSON.stringify(dtdetail) + '}');
+
+    try {
+
+        let idbackup = req.body.idbackup;
+
+        const dtdetail = await db.bacaDetailBackup(idbackup);
+
+        if(dtdetail == false){
+
+            return res.json({
+                kode: "00",
+                pesan: "Data Detail Backup Tidak Di Temukan"
+            });
+
+        }
+
+        return res.json({
+            kode: "01",
+            pesan: "Data Detail Backup Di Temukan",
+            data: dtdetail
+        });
+
+    } catch(err){
+
+        console.log(err);
+
+        return res.status(500).json({
+            error: err.message
+        });
+
     }
+
 });
 
 module.exports = app;
