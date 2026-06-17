@@ -72,16 +72,9 @@ const bacaBackup = async () => {
 
 const bacaDetailBackup = async (id_backup) => {
     const db = await buatKoneksi();
-
-    sql = `
-        SELECT *
-        FROM backup_transaksi
-        WHERE id = '${id_backup}'
-        ORDER BY waktux
-    `;
-
+    sql = `SELECT * FROM backup_transaksi WHERE id = '${id_backup}'ORDER BY waktux`;
     const [rows] = await db.execute(sql);
-
+    await db.end();
     return rows.length > 0 ? rows : false;
 }
 
