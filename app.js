@@ -15,7 +15,7 @@ app.get("/status", (req, res) => {
     res.send(
         '{"kode":"01", "status":"API Berbasis ExpressJS OK"}'
     );
-})
+});
 
 app.post("/backup", async (req, res) => {
     let pesanx, kodex;
@@ -45,7 +45,7 @@ app.post("/backup", async (req, res) => {
         kodex= 500;
     }
     return res.status(kodex).json(pesanx);
-})
+});
 
 app.get("/daftar_backup", async (req,res) => {
     const dtbackup = await db.bacaBackup();
@@ -54,7 +54,7 @@ app.get("/daftar_backup", async (req,res) => {
     }else{
         res.send('{"kode":"01","pesan":"Data Backup Di Temukan","data":' + JSON.stringify(dtbackup) + '}');
     }
-})
+});
 
 app.listen(port, () => {
     console.log(`API Berjalan di Port: ${port}`);
