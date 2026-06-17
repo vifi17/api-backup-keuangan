@@ -21,43 +21,25 @@ const buatKoneksi = async () => {
 };
 
 const tambahBackup = async (id, nama, channel) => {
-
     const db = await buatKoneksi();
-
     sql = `
         INSERT INTO backup
         VALUES('${id}','${nama}','${channel}',NOW())
     `;
-
     try {
-
         await db.execute(sql);
-
         await db.end();
-
         return "1";
-
     } catch(err){
-
         console.log(err);
         console.log("ERROR TAMBAH TRANSAKSI");
         return "0";
-
     }
-
 };
 
 const tambahTransaksi = async (
-    idx,
-    id,
-    waktux,
-    nominalx,
-    jenisx,
-    deskripsix
-) => {
-
+    idx,id,waktux,nominalx,jenisx,deskripsix) => {
     const db = await buatKoneksi();
-
     sql = `
         INSERT INTO backup_transaksi
         VALUES(
@@ -69,28 +51,29 @@ const tambahTransaksi = async (
             '${deskripsix}'
         )
     `;
-
     try {
-
         await db.execute(sql);
-
         await db.end();
-
         return "1";
-
     } catch(err){
         console.log(arr_data2);
         console.log(err);
         console.log("ERROR TAMBAH BACKUP");
         return "0";
-
     }
-
 };
+
+const bacaBackup = async () => {
+    const db = await buatKoneksi();
+    sql = `SELECT * FROM backup ORDER BY waktu DESC`;
+    const [rows] = await db.execute(sql);
+    return rows.length > 0 ? rows : false;
+}
 
 module.exports = {
     buatKoneksi,
     tambahBackup,
-    tambahTransaksi
+    tambahTransaksi,
+    bacaBackup
 };
 console.log(process.env.MYSQLHOST);

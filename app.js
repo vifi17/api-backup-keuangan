@@ -47,6 +47,15 @@ app.post("/backup", async (req, res) => {
     return res.status(kodex).json(pesanx);
 })
 
+app.get("/daftar_backup", async (req,res) => {
+    const dtbackup = await db.bacaBackup();
+    if(dtbackup == false){
+        res.send('{"kode":"00","pesan":"Data Backup Tidak Di Temukan"}');
+    }else{
+        res.send('{"kode":"01","pesan":"Data Backup Di Temukan","data":' + JSON.stringify(dtbackup) + '}');
+    }
+})
+
 app.listen(port, () => {
     console.log(`API Berjalan di Port: ${port}`);
 })
