@@ -119,8 +119,10 @@ app.post("/detail_backup", async (req, res) => {
     try {
 
         let idbackup = req.body.idbackup;
+        console.log("ID BACKUP:", idbackup);
 
         const dtdetail = await db.bacaDetailBackup(idbackup);
+         console.log("HASIL DETAIL:", dtdetail);
 
         if(dtdetail == false){
 

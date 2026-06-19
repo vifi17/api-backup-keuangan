@@ -72,8 +72,11 @@ const bacaBackup = async () => {
 
 const bacaDetailBackup = async (id_backup) => {
     const db = await buatKoneksi();
+    console.log("ID YANG DICARI:", id_backup);
     sql = `SELECT * FROM backup_transaksi WHERE id = '${id_backup}'ORDER BY tgl_jam`;
+    console.log("SQL:", sql);
     const [rows] = await db.execute(sql);
+    console.log("ROWS:", rows);
     await db.end();
     return rows.length > 0 ? rows : false;
 }
