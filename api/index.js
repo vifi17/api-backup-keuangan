@@ -38,35 +38,28 @@ app.post("/backup", async (req, res) => {
         let pesanx, kodex;
         let nama = req.body.nama_backup;
         let dtx = Buffer.from(req.body.dtx, 'base64').toString('utf-8');
-        let id = Date.now(); // Ini akan menjadi id_backup (bigint/char)
+        let id = Date.now();
         let arr_data = dtx.split("#");
         let proses = await db.tambahBackup(id, nama, "nodejs");
-        
         if(proses == "1"){
             let berhasil = 0;
             let gagal = 0;
             for(let k of arr_data){
                 if (!k) continue;
                 let arr_data2 = k.split("|");
-                
-                // Pemetaan data dari string dtx
                 let idx = arr_data2[0];
-                let uraian = arr_data2[1];      // Sebelumnya deskripsix
-                let tgl_jam = arr_data2[2];     // Sebelumnya waktux (Pastikan formatnya YYYY-MM-DD HH:mm:ss)
-                let nominal = arr_data2[3];     // Sebelumnya nominalx (Pastikan string angka murni, misal: "15000" atau "15000.50")
-                let jenis = arr_data2[4];       // Sebelumnya jenisx (Maksimal 10 karakter)
-                
-                // Struktur parameter disesuaikan dengan tabel baru:
-                // id (varchar), id_backup (char), tgl_jam (datetime), nominal (double), jenis (varchar), uraian (text)
+                let uraian = arr_data2[1];
+                let tgl_jam = arr_data2[2];
+                let nominal = arr_data2[3];
+                let jenis = arr_data2[4];
                 let proses2 = await db.tambahTransaksi(
-                    `${id}-${idx}`, // Masuk ke kolom 'id' baru
-                    id,             // Masuk ke kolom 'id_backup' baru
-                    tgl_jam,        // Masuk ke kolom 'tgl_jam' baru
-                    nominal,        // Masuk ke kolom 'nominal' baru
-                    jenis,          // Masuk ke kolom 'jenis' baru
-                    uraian          // Masuk ke kolom 'uraian' baru
+                    `${id}-${idx}`,
+                    id,
+                    tgl_jam,
+                    nominal,
+                    jenis,
+                    uraian
                 );
-                
                 proses2 == "1"
                     ? berhasil++
                     : gagal++;
@@ -111,7 +104,6 @@ app.post("/backup", async (req, res) => {
         });
     }
 });
-
 
 app.get("/daftar_backup", async (req,res) => {
     const dtbackup = await db.bacaBackup();
