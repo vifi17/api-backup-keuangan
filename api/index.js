@@ -1,31 +1,34 @@
-// const express = require("express");
-// const cors = require("cors");
-// const db = require("../db.js");
-
-// const app = express();
-
-// app.use(cors());
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-
-
-// app.get("/status", (req, res) => {
-//     res.status(200).json({
-//         kode: "01",
-//         status: "API Berbasis ExpressJS OK"
-//     });
-// });
-
-
-// module.exports = app;
 const express = require("express");
 const cors = require("cors");
 const db = require("../db.js");
+const Pusher =require("pusher");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+const pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_APP_KEY,
+    secret: process.env.PUSHER_APP_SECRET,
+    cluster: process.env.PUSHER_APP_CLUSTER,
+    useTLS: true
+});
+
+async function kirimRealtime(data){
+    try{
+        await pusher.trigger(
+            "backup-channel",
+            "backup.event",
+            data
+        );
+
+        console.log("Realtime berhasil dikirim");
+    }catch(err){
+        console.log("Gagal kirim realtime:", err);
+    }
+}
 
 app.get("/", (req, res) => {
     res.send("API NORMAL");
@@ -67,12 +70,30 @@ app.post("/backup", async (req, res) => {
                 berhasil: berhasil,
                 gagal: gagal
             };
+            await kirimRealtime({
+                source: "node",
+                nama_backup: nama,
+                status: "success",
+                berhasil: berhasil,
+                gagal: gagal,
+                total_data: arr_data.length,
+                waktu: new Date().toISOString()
+            });
             kodex = 200;
         } else {
             pesanx = {
                 kode: "00",
                 status: "Proses Backup Gagal"
             };
+            await kirimRealtime({
+                source: "node",
+                nama_backup: nama,
+                status: "failed",
+                berhasil: 0,
+                gagal: 0,
+                total_data: 0,
+                waktu: new Date().toISOString()
+            });
             kodex = 500;
         }
         return res.status(kodex).json(pesanx);
