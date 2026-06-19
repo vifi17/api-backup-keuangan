@@ -16,17 +16,25 @@ const pusher = new Pusher({
     useTLS: true
 });
 
-async function kirimRealtime(data){
-    try{
+async function kirimRealtime(data) {
+    try {
+
+        console.log("Mengirim realtime:", data);
+
         await pusher.trigger(
             "backup-channel",
             "backup.event",
-            data
+            {
+                data: data
+            }
         );
 
         console.log("Realtime berhasil dikirim");
-    }catch(err){
+
+    } catch (err) {
+
         console.log("Gagal kirim realtime:", err);
+
     }
 }
 
@@ -71,7 +79,8 @@ app.post("/backup", async (req, res) => {
                 gagal: gagal
             };
             await kirimRealtime({
-                source: "node",
+                source: "nodejs",
+                backup_id: id,
                 nama_backup: nama,
                 status: "success",
                 berhasil: berhasil,
@@ -86,7 +95,8 @@ app.post("/backup", async (req, res) => {
                 status: "Proses Backup Gagal"
             };
             await kirimRealtime({
-                source: "node",
+                source: "nodejs",
+                backup_id: id,
                 nama_backup: nama,
                 status: "failed",
                 berhasil: 0,
@@ -121,7 +131,7 @@ app.post("/detail_backup", async (req, res) => {
         let idbackup = req.body.idbackup;
         console.log("ID BACKUP:", idbackup);
 
-        const dtdetail = await db.bacaDetailBackup(idbackup);
+        const dtdetail = await db.bacaDetailBackup(id_backup);
          console.log("HASIL DETAIL:", dtdetail);
 
         if(dtdetail == false){
