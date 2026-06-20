@@ -47,6 +47,17 @@ app.post("/backup", async (req, res) => {
         let nama = req.body.nama_backup;
         let dtx = Buffer.from(req.body.dtx, 'base64').toString('utf-8');
         let id = Date.now();
+        const sekarang = new Date(
+            Date.now() + (7 * 60 * 60 * 1000)
+        );
+
+        const waktuWIB =
+            String(sekarang.getDate()).padStart(2, '0') + '-' +
+            String(sekarang.getMonth() + 1).padStart(2, '0') + '-' +
+            sekarang.getFullYear() + ' ' +
+            String(sekarang.getHours()).padStart(2, '0') + ':' +
+            String(sekarang.getMinutes()).padStart(2, '0') + ':' +
+            String(sekarang.getSeconds()).padStart(2, '0');
         let arr_data = dtx.split("#");
         let proses = await db.tambahBackup(id, nama, "nodejs");
         if(proses == "1"){
@@ -86,10 +97,8 @@ app.post("/backup", async (req, res) => {
                 berhasil: berhasil,
                 gagal: gagal,
                 total_data: arr_data.length,
-                waktu: new Date()
-                            .toISOString()
-                            .replace('T', ' ')
-                            .substring(0, 19)            });
+                waktu: waktuWIB 
+            });
             kodex = 200;
         } else {
             pesanx = {
@@ -104,10 +113,8 @@ app.post("/backup", async (req, res) => {
                 berhasil: 0,
                 gagal: 0,
                 total_data: 0,
-                waktu: new Date()
-                            .toISOString()
-                            .replace('T', ' ')
-                            .substring(0, 19)            });
+                waktu: waktuWIB 
+            });
             kodex = 500;
         }
         return res.status(kodex).json(pesanx);
