@@ -86,8 +86,10 @@ app.post("/backup", async (req, res) => {
                 berhasil: berhasil,
                 gagal: gagal,
                 total_data: arr_data.length,
-                waktu: new Date().toISOString()
-            });
+                waktu: new Date()
+                            .toISOString()
+                            .replace('T', ' ')
+                            .substring(0, 19)            });
             kodex = 200;
         } else {
             pesanx = {
@@ -102,8 +104,10 @@ app.post("/backup", async (req, res) => {
                 berhasil: 0,
                 gagal: 0,
                 total_data: 0,
-                waktu: new Date().toISOString()
-            });
+                waktu: new Date()
+                            .toISOString()
+                            .replace('T', ' ')
+                            .substring(0, 19)            });
             kodex = 500;
         }
         return res.status(kodex).json(pesanx);
